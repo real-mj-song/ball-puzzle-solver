@@ -66,7 +66,10 @@ class BallPuzzleSolver
 end
 
 # pink 1, dark green 2, teal 3, green 4, blue 5, yellow 6, red 7, purple 8, aqua 9, white 10, peach 11, orange 12
-easy = [[5,7,6,6],[5,7,5,7],[6,5,7,6]]
-# hard = [[2,3,2,1],[5,6,5,4],[8,7,2,4],[5,3,7,1],[10,6,2,9],[4,11,9,6],[12,5,11,7],[10,1,3,8],[4,10,6,12],[8,7,1,3],[11,9,11,8],[10,9,12,12]]
+easy = [[5,7,6,6],[5,7,5,7],[6,5,7,6]] # lv4
+medium = [[4,7,4,6],[7,8,6,4],[12,8,8,6],[5,8,5,6],[5,9,7,4],[12,5,9,9],[9,12,7,12]] # lv21
+hard = [[2,3,2,1],[5,6,5,4],[8,7,2,4],[5,3,7,1],[10,6,2,9],[4,11,9,6],[12,5,11,7],[10,1,3,8],[4,10,6,12],[8,7,1,3],[11,9,11,8],[10,9,12,12]]
 
-BallPuzzleSolver.new(easy, 3, 2).solve
+#BallPuzzleSolver.new(easy, 3, 2).solve
+BallPuzzleSolver.new(medium, 7, 2).solve
+#BallPuzzleSolver.new(hard, 12, 2).solve
