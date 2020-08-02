@@ -18,16 +18,11 @@ class BallPuzzleSolver
   end
 
   private def solved?(curr_state)
-    solved_count = 0
     non_empty_state = curr_state.filter {|stack| !stack.empty?}
     non_empty_state.each do |stack|
-      if stack_solved?(stack)
-        solved_count += 1
-      else
-        return false
-      end
+      return false unless stack_solved?(stack)
     end
-    return solved_count == @n_colors
+    return true
   end
 
   def solve_recur(curr_state, trace)
@@ -40,12 +35,10 @@ class BallPuzzleSolver
     end
 
     curr_state.each_with_index do |stack, idx|
-      new_state = Marshal.load(Marshal.dump(curr_state))
-      # pick the last/top element from the selected stack
-      picked = new_state[idx].pop
-      # Ignore empty stacks
-      if picked
+      unless curr_state[idx].empty?
         (0..(curr_state.size-1)).each do |i|
+          new_state = Marshal.load(Marshal.dump(curr_state))
+          picked = new_state[idx].pop
           $cal += 1
           # Don't need to put it into the current stack
           next if i == idx
