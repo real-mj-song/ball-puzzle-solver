@@ -110,16 +110,34 @@ class BallPuzzleSolver
 end
 
 # Accepted colors:
-# pink, dark green, teal, green, blue, yellow, red, purple, aqua, white, peach, orange
+# pink, dark_green, teal, green, blue, yellow, red, purple, aqua, white, peach, orange
 easy = [%w(blue red yellow yellow),%w(blue red blue red),%w(yellow blue red yellow)] # lv4
 # lv21
-medium = [%w(green red green yellow),
-          %w(red purple yellow green),
-          %w(orange purple purple yellow),
-          %w(blue purple blue yellow),
-          %w(blue aqua red green),
-          %w(orange blue aqua aqua),
-          %w(aqua orange red orange)]
+medium = [
+  %w(green red green yellow),
+  %w(red purple yellow green),
+  %w(orange purple purple yellow),
+  %w(blue purple blue yellow),
+  %w(blue aqua red green),
+  %w(orange blue aqua aqua),
+  %w(aqua orange red orange)
+]
+# lv162
+hard = [
+  %w(green green white dark_green),
+  %w(red purple orange yellow),
+  %w(pink blue green pink),
+  %w(purple orange orange blue),
+  %w(aqua yellow red dark_green),
+  %w(aqua peach white white),
+  %w(yellow blue pink peach),
+  %w(teal yellow white orange),
+  %w(aqua peach teal aqua),
+  %w(pink purple dark_green peach),
+  %w(blue red purple teal),
+  %w(green red dark_green teal)
+]
 
 # BallPuzzleSolver.new(easy, 2).solve
-BallPuzzleSolver.new(medium, 2).solve
+# BallPuzzleSolver.new(medium, 2).solve
+BallPuzzleSolver.new(hard, 2).solve
