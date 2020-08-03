@@ -32,41 +32,11 @@ class BallPuzzleSolver
     n_empty_stacks.times { |i| @state << [] }
   end
 
-  # Convert from two-dimensinoal color string arr to
-  # two-dimensional color int arr.
-  private def color_encode(two_d_arr)
-    two_d_arr.each do |stack|
-      stack.map! do |colored_ball|
-        COLOR_CODING[colored_ball.to_sym]
-      end
-    end
+  def solve
+    solve_recur(@state, [])
   end
 
-  # Convert from two-dimensinoal color int arr to
-  # two-dimensional color string arr.
-  private def color_decode(two_d_arr)
-    result = []
-    two_d_arr.each_with_index do |stack, i|
-      result << stack.map do |colored_ball|
-        @@inverted_color_coding[colored_ball]
-      end
-    end
-    result
-  end
-
-  private def stack_solved?(stack)
-    stack.uniq.size == 1 && stack.size == @height
-  end
-
-  private def solved?(curr_state)
-    non_empty_state = curr_state.filter {|stack| !stack.empty?}
-    non_empty_state.each do |stack|
-      return false unless stack_solved?(stack)
-    end
-    return true
-  end
-
-  def solve_recur(curr_state, trace)
+  private def solve_recur(curr_state, trace)
     # When the problem is solved, publish the result
     if solved?(curr_state)
       puts "Solved:========"
@@ -104,8 +74,38 @@ class BallPuzzleSolver
     end
   end
 
-  def solve
-    solve_recur(@state, [])
+  # Convert from two-dimensinoal color string arr to
+  # two-dimensional color int arr.
+  private def color_encode(two_d_arr)
+    two_d_arr.each do |stack|
+      stack.map! do |colored_ball|
+        COLOR_CODING[colored_ball.to_sym]
+      end
+    end
+  end
+
+  # Convert from two-dimensinoal color int arr to
+  # two-dimensional color string arr.
+  private def color_decode(two_d_arr)
+    result = []
+    two_d_arr.each_with_index do |stack, i|
+      result << stack.map do |colored_ball|
+        @@inverted_color_coding[colored_ball]
+      end
+    end
+    result
+  end
+
+  private def solved?(curr_state)
+    non_empty_state = curr_state.filter {|stack| !stack.empty?}
+    non_empty_state.each do |stack|
+      return false unless stack_solved?(stack)
+    end
+    return true
+  end
+
+  private def stack_solved?(stack)
+    stack.uniq.size == 1 && stack.size == @height
   end
 end
 
