@@ -1,7 +1,5 @@
 #!/usr/local/bin/ruby
 
-$cal = 0
-
 class BallPuzzleSolver
   COLOR_CODING = {pink: 1, dark_green: 2, teal: 3, green: 4, blue: 5, yellow: 6, red: 7, purple: 8, aqua: 9, white: 10, peach: 11, orange: 12}
   @@inverted_color_coding = nil
@@ -29,6 +27,7 @@ class BallPuzzleSolver
     @n_empty_stacks = n_empty_stacks
     @height = colored_state.first.length
     @seen = []
+    @calc = 0
     # # of empty stacks in the current config
     n_empty_stacks.times { |i| @state << [] }
   end
@@ -75,7 +74,7 @@ class BallPuzzleSolver
       puts "Steps:========"
       trace.each_with_index {|step, i| puts "#{i+1}: #{step}" }
 
-      p "Number of ops: #{$cal}"
+      p "Number of ops: #{@calc}"
       exit
     end
 
@@ -84,7 +83,7 @@ class BallPuzzleSolver
         (0..(curr_state.size-1)).each do |i|
           new_state = Marshal.load(Marshal.dump(curr_state))
           picked = new_state[idx].pop
-          $cal += 1
+          @calc += 1
           # Don't need to put it into the current stack
           next if i == idx
           # Can't insert into a full stack
@@ -110,7 +109,8 @@ class BallPuzzleSolver
   end
 end
 
-# pink 1, dark green 2, teal 3, green 4, blue 5, yellow 6, red 7, purple 8, aqua 9, white 10, peach 11, orange 12
+# Accepted colors:
+# pink, dark green, teal, green, blue, yellow, red, purple, aqua, white, peach, orange
 easy = [%w(blue red yellow yellow),%w(blue red blue red),%w(yellow blue red yellow)] # lv4
 # lv21
 medium = [%w(green red green yellow),
