@@ -1,13 +1,10 @@
 #!/usr/local/bin/ruby
-# color coding reverse and show the colors
-# commit
-# Not require the # of colors
-# Readme
 
 $cal = 0
 
 class BallPuzzleSolver
   COLOR_CODING = {pink: 1, dark_green: 2, teal: 3, green: 4, blue: 5, yellow: 6, red: 7, purple: 8, aqua: 9, white: 10, peach: 11, orange: 12}
+  @@inverted_color_coding = nil
 
   def self.input_validator(input)
     # All nested stacks should have the same size
@@ -26,7 +23,8 @@ class BallPuzzleSolver
   def initialize(colored_state, n_colors, n_empty_stacks)
     self.class.input_validator(colored_state)
 
-    @state = color_code(colored_state)
+    @@inverted_color_coding = COLOR_CODING.invert
+    @state = color_encode(colored_state)
     @n_colors = n_colors
     @n_empty_stacks = n_empty_stacks
     @height = colored_state.first.length
@@ -37,12 +35,24 @@ class BallPuzzleSolver
 
   # Convert from two-dimensinoal color string arr to
   # two-dimensional color int arr.
-  private def color_code(colored_state)
-    colored_state.each do |stack|
+  private def color_encode(two_d_arr)
+    two_d_arr.each do |stack|
       stack.map! do |colored_ball|
         COLOR_CODING[colored_ball.to_sym]
       end
     end
+  end
+
+  # Convert from two-dimensinoal color int arr to
+  # two-dimensional color string arr.
+  private def color_decode(two_d_arr)
+    result = []
+    two_d_arr.each_with_index do |stack, i|
+      result << stack.map do |colored_ball|
+        @@inverted_color_coding[colored_ball]
+      end
+    end
+    result
   end
 
   private def stack_solved?(stack)
@@ -60,8 +70,11 @@ class BallPuzzleSolver
   def solve_recur(curr_state, trace)
     # When the problem is solved, publish the result
     if solved?(curr_state)
-      puts "Solutions:========"
-      p curr_state, trace
+      puts "Solved:========"
+      p color_decode(curr_state)
+      puts "Steps:========"
+      trace.each_with_index {|step, i| puts "#{i+1}: #{step}" }
+
       p "Number of ops: #{$cal}"
       exit
     end
@@ -85,7 +98,7 @@ class BallPuzzleSolver
             next
           else
             @seen << new_state
-            solve_recur(new_state, trace + ["Item #{picked} moved from the #{idx+1}th stack to #{i+1}th stack."])
+            solve_recur(new_state, trace + ["Item #{@@inverted_color_coding[picked]} moved from the #{idx+1}th stack to #{i+1}th stack."])
           end
         end
       end
