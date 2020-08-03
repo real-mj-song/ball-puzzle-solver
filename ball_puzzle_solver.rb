@@ -20,12 +20,12 @@ class BallPuzzleSolver
     raise ArgumentError.new("The numbers of same colored balls should be the same.") unless count.values.uniq.length == 1
   end
 
-  def initialize(colored_state, n_colors, n_empty_stacks)
+  def initialize(colored_state, n_empty_stacks)
     self.class.input_validator(colored_state)
 
     @@inverted_color_coding = COLOR_CODING.invert
     @state = color_encode(colored_state)
-    @n_colors = n_colors
+    @n_colors = @state.flatten.uniq.count
     @n_empty_stacks = n_empty_stacks
     @height = colored_state.first.length
     @seen = []
@@ -109,11 +109,17 @@ class BallPuzzleSolver
     solve_recur(@state, [])
   end
 end
+
 # pink 1, dark green 2, teal 3, green 4, blue 5, yellow 6, red 7, purple 8, aqua 9, white 10, peach 11, orange 12
 easy = [%w(blue red yellow yellow),%w(blue red blue red),%w(yellow blue red yellow)] # lv4
-medium = [[4,7,4,6],[7,8,6,4],[12,8,8,6],[5,8,5,6],[5,9,7,4],[12,5,9,9],[9,12,7,12]] # lv21
-hard = [[2,3,2,1],[5,6,5,4],[8,7,2,4],[5,3,7,1],[10,6,2,9],[4,11,9,6],[12,5,11,7],[10,1,3,8],[4,10,6,12],[8,7,1,3],[11,9,11,8],[10,9,12,12]]
+# lv21
+medium = [%w(green red green yellow),
+          %w(red purple yellow green),
+          %w(orange purple purple yellow),
+          %w(blue purple blue yellow),
+          %w(blue aqua red green),
+          %w(orange blue aqua aqua),
+          %w(aqua orange red orange)]
 
-BallPuzzleSolver.new(easy, 3, 2).solve
-#BallPuzzleSolver.new(medium, 7, 2).solve
-#BallPuzzleSolver.new(hard, 12, 2).solve
+# BallPuzzleSolver.new(easy, 2).solve
+BallPuzzleSolver.new(medium, 2).solve
